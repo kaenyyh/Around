@@ -24,6 +24,7 @@ type Post struct {
 func main() {
 	fmt.Println("started-service")
 	http.HandleFunc("/post", handlerPost)
+	http.HandleFunc("/search", handlerSearch)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 
 }
@@ -38,4 +39,13 @@ func handlerPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Fprintf(w, "Post is received : %s\n", p.Message)
+}
+
+func handlerSearch(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Received one request for search")
+	lat := r.URL.Query().Get("lat");
+	lon := r.URL.Query().Get("lon");
+
+
+	fmt.Fprintf(w, "Lat: %s, Long: %s\n", lat, lon)
 }
